@@ -1,0 +1,7 @@
+name: ${name}
+version: ${version}
+main: ${group}.paper.AxiosPlugin
+description: Library and API for my plugins
+author: Loapu
+website: https://docs.axios.software/
+api-version: 1.19
