@@ -8,8 +8,8 @@
 module software.axios.api {
 	requires org.checkerframework.checker.qual;
 	requires net.kyori.adventure.text.minimessage;
-	requires org.bukkit;
 	requires net.kyori.adventure;
+	requires org.jetbrains.annotations;
 	exports software.axios.api;
 	exports software.axios.api.i18n;
 	exports software.axios.api.command;

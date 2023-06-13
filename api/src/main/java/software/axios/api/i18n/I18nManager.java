@@ -1,7 +1,7 @@
 package software.axios.api.i18n;
 
-import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import software.axios.api.AxiosApiPlugin;
 
 import java.util.Locale;
 
@@ -21,7 +21,7 @@ public interface I18nManager
 	 *
 	 * @since 1.0
 	 */
-	void setup(Plugin plugin, Class<? extends MessagesInterface> messageClazz, Locale... additionalLocales);
+	void setup(AxiosApiPlugin plugin, Class<? extends MessagesInterface> messageClazz, Locale... additionalLocales);
 	
 	/**
 	 * Get a message from the manager.

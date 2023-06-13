@@ -1,8 +1,10 @@
-project.version = "1.0"
+project.version = "1.1"
 
 dependencies {
     compileOnly(libs.checker.qual)
-    api(libs.paper)
+    compileOnly(libs.jetbrains.annotations)
+    compileOnly(libs.adventure)
+    compileOnly(libs.minimessage)
 }
 
 tasks.withType<Javadoc> {

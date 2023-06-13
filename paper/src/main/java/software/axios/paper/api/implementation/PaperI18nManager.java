@@ -1,10 +1,12 @@
 package software.axios.paper.api.implementation;
 
+import net.kyori.adventure.util.UTF8ResourceBundleControl;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import software.axios.api.AxiosApiPlugin;
 import software.axios.api.i18n.I18nManager;
 import software.axios.api.i18n.MessagesInterface;
-import software.axios.paper.util.AxiosResourceBundleControl;
+import software.axios.paper.AxiosPlugin;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -34,21 +36,34 @@ public class PaperI18nManager implements I18nManager
 	}
 	
 	@Override
-	public void setup(Plugin plugin, Class<? extends MessagesInterface> messageClazz, Locale... additionalLocales)
+	public void setup(AxiosApiPlugin plugin, Class<? extends MessagesInterface> messageClazz, Locale... additionalLocales)
 	{
-		String resourcePathFirst = bundleName + File.separator + bundleName;
+		String resourcePathFirst = bundleName + File.separator + "default" + File.separator + "default";
 		String resourcePathLast = ".properties";
-		plugin.saveResource(resourcePathFirst + resourcePathLast, true);
+		plugin.saveResources(resourcePathFirst + resourcePathLast, true);
 		for (Locale locale : additionalLocales)
 		{
 			String resourcePath = resourcePathFirst + "_" + locale + resourcePathLast;
-			plugin.saveResource(resourcePath, true);
+			plugin.saveResources(resourcePath, true);
 		}
-		File i18nFolder = new File(plugin.getDataFolder(), bundleName);
+		File i18nFolder = new File(plugin.pluginFolder(), bundleName);
+		File defaultFolder = new File(i18nFolder, "default");
+		if (!defaultFolder.exists())
+		{
+			defaultFolder.mkdirs();
+		}
+		File customFolder = new File(i18nFolder, "custom");
+		if (!customFolder.exists())
+		{
+			customFolder.mkdirs();
+		}
 		
 		try
 		{
-			URL[] urls = {i18nFolder.getAbsoluteFile().toURI().toURL()};
+			URL[] urls = {
+				customFolder.getAbsoluteFile().toURI().toURL(),
+				defaultFolder.getAbsoluteFile().toURI().toURL()
+			};
 			i18nLoaders.put(messageClazz, new URLClassLoader(urls));
 		}
 		catch (MalformedURLException e)
@@ -63,8 +78,28 @@ public class PaperI18nManager implements I18nManager
 	{
 		if (i18nLoaders.containsKey(messageClazz))
 		{
-			ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale, i18nLoaders.get(messageClazz), new AxiosResourceBundleControl());
-			return resourceBundle.containsKey(key) ? resourceBundle.getString(key).replaceAll("\\n", "<newline>") : key;
+			ResourceBundle resourceBundle = null;
+			try
+			{
+				resourceBundle = ResourceBundle.getBundle("custom", locale, i18nLoaders.get(messageClazz), new UTF8ResourceBundleControl());
+			}
+			catch (Exception e)
+			{
+				AxiosPlugin.instance().debug("No custom translation files found. Using default.");
+			}
+			if (resourceBundle == null || !resourceBundle.containsKey(key))
+			{
+				try
+				{
+					resourceBundle = ResourceBundle.getBundle("default", locale, i18nLoaders.get(messageClazz), new UTF8ResourceBundleControl());
+				}
+				catch (Exception e)
+				{
+					AxiosPlugin.instance().debug("No default translation files found. Using key.");
+				}
+			}
+			if (resourceBundle == null || !resourceBundle.containsKey(key)) return key;
+			return resourceBundle.getString(key).replaceAll("\\n", "<newline>");
 		}
 		return key;
 	}

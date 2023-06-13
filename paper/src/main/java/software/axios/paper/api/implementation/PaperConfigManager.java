@@ -2,11 +2,11 @@ package software.axios.paper.api.implementation;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import software.axios.api.configuration.ConfigManager;
 import software.axios.api.configuration.SettingsField;
 import software.axios.api.configuration.SettingsInterface;
+import software.axios.api.AxiosApiPlugin;
 import software.axios.paper.AxiosPlugin;
 import software.axios.paper.configuration.Settings;
 
@@ -38,7 +38,7 @@ public class PaperConfigManager implements ConfigManager
 	}
 	
 	@Override
-	public <R extends SettingsInterface> void setup(Plugin plugin, Class<R> settingsClazz)
+	public <R extends SettingsInterface> void setup(AxiosApiPlugin plugin, Class<R> settingsClazz)
 	{
 		reload(plugin, settingsClazz);
 		AxiosPlugin.instance().debug("Setting up config manager for " + settingsClazz.getName());
@@ -51,10 +51,10 @@ public class PaperConfigManager implements ConfigManager
 	}
 	
 	@Override
-	public <R extends SettingsInterface> void reload(Plugin plugin, Class<R> settingsClazz)
+	public <R extends SettingsInterface> void reload(AxiosApiPlugin plugin, Class<R> settingsClazz)
 	{
 		FileConfiguration config = new YamlConfiguration();
-		File configFile = new File(plugin.getDataFolder(), configFileName);
+		File configFile = new File(plugin.pluginFolder(), configFileName);
 		
 		if (configFile.exists()) config = YamlConfiguration.loadConfiguration(configFile);
 		
@@ -77,10 +77,10 @@ public class PaperConfigManager implements ConfigManager
 		configMap.put(settingsClazz, tempConfig);
 	}
 	
-	private <R extends SettingsInterface> void saveToDisk(Plugin plugin, Class<R> settingsClazz)
+	private <R extends SettingsInterface> void saveToDisk(AxiosApiPlugin plugin, Class<R> settingsClazz)
 	{
 		FileConfiguration config = configMap.get(settingsClazz);
-		File configFile = new File(plugin.getDataFolder(), configFileName);
+		File configFile = new File(plugin.pluginFolder(), configFileName);
 		try
 		{
 			config.save(configFile);
@@ -121,11 +121,20 @@ public class PaperConfigManager implements ConfigManager
 	{
 		Class<T> type = setting.type();
 		FileConfiguration config = configMap.get(settingsClazz);
-		if (config == null) return setting.defaultValue();
+		if (config == null)
+		{
+			AxiosPlugin.instance().getLogger().warning("No config found for class: " + settingsClazz.getName());
+			return setting.defaultValue();
+		}
 		String key = setting.path();
-		if (!config.contains(key)) return setting.defaultValue();
+		if (!config.contains(key))
+		{
+			AxiosPlugin.instance().getLogger().warning("No value at given path: " + key);
+			return setting.defaultValue();
+		}
 		Object value = config.get(key);
 		if (type.isInstance(value)) return type.cast(value);
+		AxiosPlugin.instance().getLogger().warning("Type mismatch in Config. Expected type: " + type.getSimpleName());
 		return setting.defaultValue();
 	}
 	

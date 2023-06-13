@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.bukkit.entity.Entity;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import software.axios.api.i18n.TagBuilder;
 import software.axios.api.platform.AxiosEntity;

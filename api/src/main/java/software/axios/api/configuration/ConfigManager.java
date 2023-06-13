@@ -1,9 +1,8 @@
 package software.axios.api.configuration;
 
-import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import software.axios.api.AxiosApiPlugin;
 
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -22,11 +21,11 @@ public interface ConfigManager
 	 *
 	 * @since 1.0
 	 */
-	<R extends SettingsInterface> void setup(Plugin plugin, Class<R> settingsClazz);
+	<R extends SettingsInterface> void setup(AxiosApiPlugin plugin, Class<R> settingsClazz);
 	
 	/**
 	 * Reload your configuration files <br>
-	 * <strong>IMPORTANT:</strong> Use this method only after you have called {@link #setup(Plugin, Class)}
+	 * <strong>IMPORTANT:</strong> Use this method only after you have called {@link #setup(AxiosApiPlugin, Class)}
 	 * or your settings will not be saved.
 	 *
 	 * @param <R> the settings class to use
@@ -35,7 +34,7 @@ public interface ConfigManager
 	 *
 	 * @since 1.0
 	 */
-	<R extends SettingsInterface> void reload(Plugin plugin, Class<R> settingsClazz);
+	<R extends SettingsInterface> void reload(AxiosApiPlugin plugin, Class<R> settingsClazz);
 	
 	
 	/**

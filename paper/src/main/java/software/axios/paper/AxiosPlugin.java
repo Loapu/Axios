@@ -4,17 +4,21 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import software.axios.api.Axios;
+import software.axios.api.AxiosApiPlugin;
 import software.axios.paper.api.AxiosApiProvider;
 import software.axios.paper.commands.CommandAxios;
 import software.axios.paper.configuration.Settings;
 import software.axios.paper.i18n.Messages;
+import software.axios.paper.util.ApiRegistrationUtil;
 
+import java.io.File;
 import java.util.Locale;
 
-public class AxiosPlugin extends JavaPlugin
+public class AxiosPlugin extends JavaPlugin implements AxiosApiPlugin
 {
-	private AxiosApiProvider apiProvider;
+	private Axios apiProvider;
 	
 	private static AxiosPlugin instance;
 	public static AxiosPlugin instance()
@@ -53,16 +57,18 @@ public class AxiosPlugin extends JavaPlugin
 	{
 		CommandAxios.instance().unregister();
 		CommandAPI.onDisable();
+		ApiRegistrationUtil.unregisterProvider();
 		getLogger().info("Axios is disabled!");
 	}
 	
-	public AxiosApiProvider axiosApiProvider()
+	public Axios axiosApiProvider()
 	{
 		return apiProvider;
 	}
 	
 	private void registerApi(Axios api)
 	{
+		ApiRegistrationUtil.registerProvider(this.apiProvider);
 		getServer().getServicesManager().register(Axios.class, api, this, ServicePriority.Normal);
 	}
 	
@@ -93,5 +99,17 @@ public class AxiosPlugin extends JavaPlugin
 		{
 			getLogger().info("[DEBUG] " + message);
 		}
+	}
+
+	@Override
+	public @NotNull File pluginFolder()
+	{
+		return getDataFolder();
+	}
+	
+	@Override
+	public void saveResources(String path, boolean replace)
+	{
+		saveResource(path, replace);
 	}
 }
