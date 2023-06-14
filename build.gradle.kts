@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream
+
 defaultTasks("build")
 
 subprojects {
@@ -19,11 +21,14 @@ subprojects {
     }
 
     fun determinePatchVersion(): Any {
-        val tagInfo = exec {
-            commandLine("git", "describe", "--tags", "--abbrev=0")
-        }.toString()
-        if (!tagInfo.contains('-')) return 0
-        return tagInfo.split('-')[1]
+        val tagInfo = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "describe", "--tags")
+            standardOutput = tagInfo
+        }
+        val tagInfoString = tagInfo.toString()
+        if (!tagInfoString.contains('-')) return 0
+        return tagInfoString.split('-')[1]
     }
 
     rootProject.extra.set("majorVersion", 1)

@@ -45,7 +45,7 @@ public class PaperAxiosMessages implements AxiosMessages
 				Component component = mm.deserialize(toString(player.locale()), placeholder);
 				player.sendMessage(component);
 			}
-			else audience.sendMessage(parsed);
+			else a.sendMessage(parsed);
 		});
 	}
 	
