@@ -54,7 +54,7 @@ public class PaperTagBuilder implements TagBuilder
 	@Override
 	public @NonNull TagBuilder add(String key, AxiosEntity entity)
 	{
-		Component parsedComponent = mm.deserialize("<hover:show_text:'" + entity.name() + "<newline><lang:gui.entity_tooltip.type:\"<lang:" + entity.translationKey() + ">\"><newline>" + entity.uniqueId() + "'>" + entity.name() + "</hover>");
+		Component parsedComponent = mm.deserialize("<hover:show_text:'" + entity.name().replace("'", "\\'") + "<newline><white><lang:gui.entity_tooltip.type:\"<lang:" + entity.translationKey() + ">\"><newline>" + entity.uniqueId() + "'>" + entity.name() + "</hover>");
 		resolverList.add(Placeholder.component(key, parsedComponent));
 		return this;
 	}

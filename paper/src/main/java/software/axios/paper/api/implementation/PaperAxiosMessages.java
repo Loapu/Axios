@@ -31,7 +31,7 @@ public class PaperAxiosMessages implements AxiosMessages
 	@Override
 	public @NonNull String toString()
 	{
-		return toString(Locale.getDefault());
+		return toString(PaperConfigManager.getInstance().defaultLocale());
 	}
 	
 	@Override

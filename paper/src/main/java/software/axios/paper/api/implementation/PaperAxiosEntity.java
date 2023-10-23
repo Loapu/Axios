@@ -1,5 +1,6 @@
 package software.axios.paper.api.implementation;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,8 @@ public class PaperAxiosEntity implements AxiosEntity
 			throw new IllegalArgumentException("entity must be an instance of org.bukkit.entity.Entity");
 		}
 		this.uuid = bukkitEntity.getUniqueId();
-		this.name = bukkitEntity.getName();
+		var customName = bukkitEntity.customName();
+		this.name = customName != null ? MiniMessage.miniMessage().serialize(customName) : bukkitEntity.getName();
 		this.type = bukkitEntity.getType();
 	}
 	@Override
