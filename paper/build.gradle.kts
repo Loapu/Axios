@@ -1,14 +1,17 @@
 import org.apache.groovy.util.Maps
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.0"
+    id("io.github.goooler.shadow") version "8.1.7"
+    id("io.papermc.paperweight.userdev") version "1.+"
 }
 
 dependencies {
+    paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
     implementation(project(":api"))
-    implementation(libs.paper)
     implementation(libs.commandapi.shade)
 }
+
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
 tasks {
     processResources {
