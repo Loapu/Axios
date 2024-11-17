@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle(libs.paper.get().version)
     implementation(project(":api"))
     implementation(libs.commandapi.shade)
 }

@@ -52,7 +52,7 @@ public class PaperAxiosSettings<T, R extends SettingsInterface> implements Axios
 		String axiosMasterCommentString = axiosMasterBundle.getString("axios.master");
 		axiosMasterCommentString = String.format(axiosMasterCommentString, type.getSimpleName(), defaultValue);
 		List<String> comments = new ArrayList<>(Arrays.asList(commentString.split("\\s*\\n\\s*")));
-		if (comments.size() == 1 && comments.get(0).equals(""))
+		if (comments.size() == 1 && comments.getFirst().isEmpty())
 			comments.set(0, axiosMasterCommentString);
 		else
 		{
