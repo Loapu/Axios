@@ -38,7 +38,7 @@ tasks {
             val properties = Maps.of(
                 "name", "Axios",
                 "version", rootProject.extra.get("fullVersion"),
-                "group", project.group
+                "group", rootProject.group
             )
             expand(properties)
         }
