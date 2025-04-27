@@ -2,8 +2,8 @@ import org.apache.groovy.util.Maps
 import java.nio.file.Paths
 
 plugins {
-    id("io.github.goooler.shadow") version "8.1.7"
-    id("io.papermc.paperweight.userdev") version "1.+"
+    id("com.gradleup.shadow") version "9.+"
+    id("io.papermc.paperweight.userdev") version "2.+"
     id("com.modrinth.minotaur") version "2.+"
 }
 
@@ -22,10 +22,10 @@ modrinth {
     projectId.set("g4shpRpJ")
     versionNumber.set(rootProject.extra.get("fullVersion") as String)
     uploadFile.set(tasks.shadowJar)
-    gameVersions.addAll("1.21", "1.21.1", "1.21.2", "1.21.3")
+    gameVersions.addAll("1.21.4")
     loaders.add("paper")
     dependencies {
-        embedded.version("ExxvCi0y", "bEeWxiza")
+        embedded.version("ExxvCi0y", "H7ukI4pg")
     }
     syncBodyFrom.set(rootProject.file(Paths.get("modrinth", "DESCRIPTION.md")).readText())
     changelog.set(rootProject.file(Paths.get("modrinth", "CHANGELOG.md")).readText())
@@ -38,7 +38,7 @@ tasks {
             val properties = Maps.of(
                 "name", "Axios",
                 "version", rootProject.extra.get("fullVersion"),
-                "group", rootProject.group
+                "group", "software.axios"
             )
             expand(properties)
         }
