@@ -1,6 +1,6 @@
 [versions]
-paper = "1.21.3-R0.1-SNAPSHOT"
-commandapi = "9.6.1"
+paper = "1.21.4-R0.1-SNAPSHOT"
+commandapi = "10.0.0"
 checkerframework = "3.33.0"
 jetbrains-annotations = "23.1.0"
 adventure = "4.17.0"
