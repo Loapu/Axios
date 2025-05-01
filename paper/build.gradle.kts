@@ -22,7 +22,7 @@ modrinth {
     projectId.set("g4shpRpJ")
     versionNumber.set(rootProject.extra.get("fullVersion") as String)
     uploadFile.set(tasks.shadowJar)
-    gameVersions.addAll("1.21.4")
+    gameVersions.addAll("1.21.5")
     loaders.add("paper")
     dependencies {
         embedded.version("ExxvCi0y", "H7ukI4pg")
