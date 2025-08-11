@@ -22,10 +22,10 @@ modrinth {
     projectId.set("g4shpRpJ")
     versionNumber.set(rootProject.extra.get("fullVersion") as String)
     uploadFile.set(tasks.shadowJar)
-    gameVersions.addAll("1.21.5")
+    gameVersions.addAll("1.21.8")
     loaders.add("paper")
     dependencies {
-        embedded.version("ExxvCi0y", "H7ukI4pg")
+        embedded.version("ExxvCi0y", "epl0dnHR")
     }
     syncBodyFrom.set(rootProject.file(Paths.get("modrinth", "DESCRIPTION.md")).readText())
     changelog.set(rootProject.file(Paths.get("modrinth", "CHANGELOG.md")).readText())
