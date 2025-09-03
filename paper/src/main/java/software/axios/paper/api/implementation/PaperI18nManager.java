@@ -22,6 +22,7 @@ public class PaperI18nManager implements I18nManager
 	private static final String bundleName = "i18n";
 	private final Map<Class<? extends MessagesInterface>, ClassLoader> i18nLoaders = new HashMap<>();
 	private static PaperI18nManager instance;
+	private static UTF8ResourceBundleControl axiosUTF8ResourceBundleControl;
 	public static PaperI18nManager getInstance()
 	{
 		if (instance == null)
@@ -29,6 +30,14 @@ public class PaperI18nManager implements I18nManager
 			instance = new PaperI18nManager();
 		}
 		return instance;
+	}
+	public static UTF8ResourceBundleControl getAxiosUTF8ResourceBundleControl()
+	{
+		if (axiosUTF8ResourceBundleControl == null)
+		{
+			axiosUTF8ResourceBundleControl = new UTF8ResourceBundleControl();
+		}
+		return axiosUTF8ResourceBundleControl;
 	}
 	
 	private PaperI18nManager()
@@ -81,7 +90,7 @@ public class PaperI18nManager implements I18nManager
 			ResourceBundle resourceBundle = null;
 			try
 			{
-				resourceBundle = ResourceBundle.getBundle("custom", locale, i18nLoaders.get(messageClazz), new UTF8ResourceBundleControl());
+				resourceBundle = ResourceBundle.getBundle("custom", locale, i18nLoaders.get(messageClazz), getAxiosUTF8ResourceBundleControl());
 			}
 			catch (Exception e)
 			{
@@ -91,7 +100,7 @@ public class PaperI18nManager implements I18nManager
 			{
 				try
 				{
-					resourceBundle = ResourceBundle.getBundle("default", locale, i18nLoaders.get(messageClazz), new UTF8ResourceBundleControl());
+					resourceBundle = ResourceBundle.getBundle("default", locale, i18nLoaders.get(messageClazz), getAxiosUTF8ResourceBundleControl());
 				}
 				catch (Exception e)
 				{

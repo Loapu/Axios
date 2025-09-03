@@ -39,13 +39,13 @@ public class PaperAxiosSettings<T, R extends SettingsInterface> implements Axios
 			baseName,
 			PaperConfigManager.getInstance().defaultLocale(),
 			callingClazz.getClassLoader(),
-			UTF8ResourceBundleControl.utf8ResourceBundleControl()
+			PaperI18nManager.getAxiosUTF8ResourceBundleControl()
 		);
 		ResourceBundle axiosMasterBundle = ResourceBundle.getBundle(
 			baseName,
 			PaperConfigManager.getInstance().defaultLocale(),
 			AxiosPlugin.class.getClassLoader(),
-			UTF8ResourceBundleControl.utf8ResourceBundleControl()
+			PaperI18nManager.getAxiosUTF8ResourceBundleControl()
 		);
 		assert axiosMasterBundle.containsKey("axios.master");
 		String commentString = commentsBundle.containsKey(path) ? commentsBundle.getString(path) : "";
